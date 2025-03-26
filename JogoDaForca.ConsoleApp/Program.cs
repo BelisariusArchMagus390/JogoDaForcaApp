@@ -59,10 +59,80 @@
             }
         }
 
+        static int indiceEspacoLivre(char [] letrasPalavraSecreta)
+        {
+            int index = 0;
+
+            for (int indice = 0; indice < letrasPalavraSecreta.Length; indice++)
+            {
+                if ( (indice-1) >= 0)
+                {
+                    if (letrasPalavraSecreta[indice-1] != ' ' && letrasPalavraSecreta[indice] == ' ')
+                    {
+                        index = indice;
+                        break;
+                    }
+                }
+            }
+
+            return index;
+        }
+
+        static int qtEspacosVazios(char[] letrasPalavraSecreta)
+        {
+            int contador = 0;
+            for (int i = 0; i < letrasPalavraSecreta.Length; i++)
+            {
+                if (letrasPalavraSecreta[i] == ' ')
+                    contador++;
+            }
+
+            return contador;
+        }
+
+        static int maximoLetras(string palavraSecreta, int quantidadeErrosMaximo)
+        {
+            int contadorLetra;
+            int tamanhoPalavra = palavraSecreta.Length;
+            char[] letrasPalavraSecreta = new char[tamanhoPalavra];
+            bool encontrouLetra;
+            int indiceUltimaLetra = 0;
+
+            for (int caractere = 0; caractere < tamanhoPalavra; caractere++)
+            {
+                letrasPalavraSecreta[caractere] = ' ';
+            }
+
+            for (int indiceLetraSecreta = 0; indiceLetraSecreta < tamanhoPalavra; indiceLetraSecreta++)
+            {
+                encontrouLetra = true;
+                for (int indiceLetra = 0; indiceLetra < tamanhoPalavra; indiceLetra++)
+                {
+                    if (palavraSecreta[indiceLetraSecreta] == letrasPalavraSecreta[indiceLetra])
+                    {
+                        break;
+                    }
+                    else if (indiceLetra == (tamanhoPalavra-1) )
+                        encontrouLetra = false;
+                }
+
+                if (encontrouLetra == false)
+                    indiceUltimaLetra = indiceEspacoLivre(letrasPalavraSecreta);
+                    letrasPalavraSecreta[indiceUltimaLetra] = palavraSecreta[indiceLetraSecreta];
+            }
+
+            return letrasPalavraSecreta.Length - qtEspacosVazios(letrasPalavraSecreta) + quantidadeErrosMaximo;
+            //return palavraSecreta.Length+5;
+        }
+
         static void Main(string[] args)
         {
             char opcao = 'S';
             string palavraSecreta = "MELANCIA";
+            int quantidadeErrosMaximo = 5;
+
+            int qtMaxLetras = maximoLetras(palavraSecreta, quantidadeErrosMaximo);
+            //Console.WriteLine(qtMaxLetras);
 
             while (opcao == 'S')
             {
@@ -77,7 +147,7 @@
                 {
                     string dicaDaPalavra = String.Join(" ", letrasEncontradas);
 
-                    Console.Clear();
+                    //Console.Clear();
                     Console.WriteLine(" ---------------------------------------");
                     Console.WriteLine(" Jogo da Forca");
                     Console.WriteLine(" ---------------------------------------");
@@ -112,7 +182,7 @@
 
                     jogadorAcertou = dicaDaPalavra == palavraSecreta;
                     // o jogador poderá cometer 5 erros antes de perder
-                    jogadorEnforcou = quantidadeErros > 5;
+                    jogadorEnforcou = quantidadeErros > quantidadeErrosMaximo;
 
                     condicaoVitoria(jogadorAcertou, jogadorEnforcou, palavraSecreta);
 
