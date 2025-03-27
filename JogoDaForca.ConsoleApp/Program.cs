@@ -177,8 +177,6 @@
 
         static void mostrarMenuOpcoes()
         {
-            Console.Clear();
-            Console.WriteLine(" \n---------------------------------------");
             Console.WriteLine(" 1 - Palavra");
             Console.WriteLine(" 2 - Letra");
             Console.WriteLine(" ---------------------------------------");
@@ -253,14 +251,14 @@
                     bool[] estatus;
                     bool ePalavra = false;
 
+                    mostrarMenuJogo(dicaDaPalavra, qtErros, letrasDigitadas);
+
                     opcaoResposta = opcaoDecisao();
 
                     switch (opcaoResposta)
                     {
                         case '1':
-                            mostrarMenuJogo(dicaDaPalavra, qtErros, letrasDigitadas);
-
-                            Console.Write("Digite a palavra: ");
+                            Console.Write("\n Digite a palavra: ");
                             chutePalavra = Console.ReadLine().ToUpper();
 
                             ePalavra = true;
@@ -275,9 +273,7 @@
                         case '2':
                             while (true)
                             {
-                                mostrarMenuJogo(dicaDaPalavra, qtErros, letrasDigitadas);
-
-                                Console.Write(" Digite uma letra: ");
+                                Console.Write("\n Digite uma letra: ");
                                 chute = Console.ReadLine()[0]; // obtém apenas um caractere que o usuário digitou
                                 chute = Char.ToUpper(chute);
 
