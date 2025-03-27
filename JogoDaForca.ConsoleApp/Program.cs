@@ -146,9 +146,6 @@
 
         static void mostrarMenuJogo(string dicaDaPalavra, int qtErros, char [] letrasDigitadas)
         {
-            Console.Clear();
-            Console.WriteLine(" ---------------------------------------");
-            Console.WriteLine(" Jogo da Forca");
             Console.WriteLine(" ---------------------------------------");
             Console.WriteLine(" Máximo de erros: 5");
             Console.WriteLine(" ---------------------------------------");
@@ -157,16 +154,17 @@
 
             int tamanho = letrasDigitadas.Length;
 
-            Console.Write(" Letras já usadas:");
+            Console.Write(" Letras já usadas: ");
 
             for (int letra = 0; letra < tamanho; letra++)
             {
                 if (letrasDigitadas[letra] != '_')
                 {
-                    if ((letra + 1) < tamanho && letra != 0)
-                        Console.Write($" {letrasDigitadas[letra]} | {letrasDigitadas[letra + 1]}");
-                    else if (letra == 0)
-                        Console.Write($" {letrasDigitadas[letra]} |");
+                    if ((letra+1) < tamanho)
+                        if (letrasDigitadas[letra+1] != '_')
+                            Console.Write($"{letrasDigitadas[letra]} | ");
+                        else
+                            Console.Write($"{letrasDigitadas[letra]}");
                 }
             }
 
@@ -256,6 +254,30 @@
             return palavraSecreta;
         }
 
+        static void desenhoForca(int qtErros)
+        {
+            string cabeca = qtErros >= 1 ? " o " : " ";
+            string troncoCima = qtErros >= 2 ? "|" : " ";
+            string troncoBaixo = qtErros >= 2 ? " | " : " ";
+            string bracoEsquerdo = qtErros >= 3 ? "/" : " ";
+            string bracoDireito = qtErros >= 4 ? @"\" : " ";
+            string pernas = qtErros >= 5 ? "/ \\" : " ";
+
+            Console.Clear();
+            Console.WriteLine(" ---------------------------------------");
+            Console.WriteLine(" Jogo da Forca");
+            Console.WriteLine(" ---------------------------------------");
+            Console.WriteLine("  ___________        ");
+            Console.WriteLine("  |/        |        ");
+            Console.WriteLine("  |        {0}       ", cabeca);
+            Console.WriteLine("  |     {0}{1}{2}    ", bracoEsquerdo, troncoCima, bracoDireito);
+            Console.WriteLine("  |        {0}       ", troncoBaixo);
+            Console.WriteLine("  |        {0}       ", pernas);
+            Console.WriteLine("  |                  ");
+            Console.WriteLine("  |                  ");
+            Console.WriteLine(" _|____              ");
+        }
+
         static void Main(string[] args)
         {
             char opcao = 'S';
@@ -291,6 +313,8 @@
                     bool checagemOpcao = false;
                     while (checagemOpcao == false)
                     {
+                        desenhoForca(qtErros);
+
                         mostrarMenuJogo(dicaDaPalavra, qtErros, letrasDigitadas);
 
                         opcaoResposta = opcaoDecisao();
