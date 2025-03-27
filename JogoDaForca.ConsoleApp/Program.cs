@@ -2,6 +2,14 @@
 {
     internal class Program
     {
+        static void mensagemErroOpcao()
+        {
+            Console.Clear();
+            Console.Write("Erro! Essa escolha não existe, favor escolher uma que exista.");
+            Console.WriteLine(" Aperte Enter para continuar...");
+            Console.ReadLine();
+        }
+
         static char opcaoSaida()
         {
             char opcao;
@@ -15,32 +23,38 @@
 
                 if (opcao != 'S' && opcao != 'N')
                 {
-                    Console.Clear();
-                    Console.WriteLine(" Opção inválida, favor escolher uma existente.");
-                    Console.WriteLine(" Aperte Enter para continuar...");
+                    mensagemErroOpcao();
                 }
                 else
                     break;
-
-                Console.ReadLine();
             }
 
             return opcao;
         }
 
-        static char[] constroiDicaPalavra(int tamanhoArray, char[] letraEncontradas)
+        static char[] constroiArrayVazio(int tamanhoArray, char[] array)
         {
             for (int caractere = 0; caractere < tamanhoArray; caractere++)
             {
                 // acessar o array no índice 0
-                letraEncontradas[caractere] = '_';
+                array[caractere] = '_';
             }
 
-            return letraEncontradas;
+            return array;
         }
 
-        static void condicaoVitoria(bool jogadorAcertou, bool jogadorEnforcou, string palavraSecreta)
+        static bool [] condicaoVitoria(string palavraSecreta, string dicaDaPalavra, int qtErros, int qtErrosMaximo, string chutePalavra, bool ePalavra)
         {
+            bool jogadorAcertou;
+            bool jogadorEnforcou;
+
+            if (ePalavra == true)
+                jogadorAcertou = chutePalavra == palavraSecreta;
+            else
+                jogadorAcertou = dicaDaPalavra == palavraSecreta;
+            
+            jogadorEnforcou = qtErros > qtErrosMaximo;
+
             if (jogadorAcertou)
             {
                 Console.Clear();
@@ -57,6 +71,10 @@
                 Console.WriteLine($" A palavra secreta era: {palavraSecreta}");
                 Console.WriteLine(" ---------------------------------------");
             }
+
+            bool[] estatusJogador = {jogadorAcertou, jogadorEnforcou};
+
+            return estatusJogador;
         }
 
         static int indiceEspacoLivre(char [] letrasPalavraSecreta)
@@ -90,7 +108,7 @@
             return contador;
         }
 
-        static int maximoLetras(string palavraSecreta, int quantidadeErrosMaximo)
+        static int maximoLetras(string palavraSecreta, int qtErrosMaximo)
         {
             int contadorLetra;
             int tamanhoPalavra = palavraSecreta.Length;
@@ -121,70 +139,190 @@
                     letrasPalavraSecreta[indiceUltimaLetra] = palavraSecreta[indiceLetraSecreta];
             }
 
-            return letrasPalavraSecreta.Length - qtEspacosVazios(letrasPalavraSecreta) + quantidadeErrosMaximo;
-            //return palavraSecreta.Length+5;
+            return letrasPalavraSecreta.Length - qtEspacosVazios(letrasPalavraSecreta) + qtErrosMaximo;
+        }
+
+        static void mostrarMenuJogo(string dicaDaPalavra, int qtErros, char [] letrasDigitadas)
+        {
+            Console.Clear();
+            Console.WriteLine(" ---------------------------------------");
+            Console.WriteLine(" Jogo da Forca");
+            Console.WriteLine(" ---------------------------------------");
+            Console.WriteLine(" Máximo de erros: 5");
+            Console.WriteLine(" ---------------------------------------");
+            Console.WriteLine($" Palavra secreta: {dicaDaPalavra}");
+            Console.WriteLine(" ---------------------------------------");
+
+            int tamanho = letrasDigitadas.Length;
+
+            Console.Write(" Letras já usadas:");
+
+            for (int letra = 0; letra < tamanho; letra++)
+            {
+                if (letrasDigitadas[letra] != '_')
+                {
+                    if ((letra + 1) < tamanho && letra != 0)
+                        Console.Write($" {letrasDigitadas[letra]} | {letrasDigitadas[letra + 1]}");
+                    else if (letra == 0)
+                        Console.Write($" {letrasDigitadas[letra]} |");
+                }
+            }
+
+            Console.WriteLine(" ---------------------------------------");
+            Console.WriteLine($" Quantidade de erros: {qtErros}");
+            Console.WriteLine(" ---------------------------------------");
+        }
+
+        static void mostrarMenuOpcoes()
+        {
+            Console.Clear();
+            Console.WriteLine(" \n---------------------------------------");
+            Console.WriteLine(" 1 - Palavra");
+            Console.WriteLine(" 2 - Letra");
+            Console.WriteLine(" ---------------------------------------");
+        }
+
+        static bool letraPodeEntrar(char chute, char[] letrasDigitadas)
+        {
+            bool podeEntrar = true;
+            for (int i = 0; i < letrasDigitadas.Length; i++)
+            {
+                if (letrasDigitadas[i] == chute)
+                {
+                    podeEntrar = false;
+                    break;
+                }
+            }
+            if (podeEntrar)
+                return true;
+            else
+                return false;
+        }
+
+        static char opcaoDecisao()
+        {
+            char opcaoResposta;
+
+            mostrarMenuOpcoes();
+
+            while (true)
+            {
+                Console.Write(" Escolha se quer responder com uma palavra ou letra: ");
+                opcaoResposta = Console.ReadLine()[0];
+
+                if (opcaoResposta == '1' || opcaoResposta == '2')
+                    break;
+                else
+                    mensagemErroOpcao();
+            }
+
+            return opcaoResposta;
         }
 
         static void Main(string[] args)
         {
             char opcao = 'S';
             string palavraSecreta = "MELANCIA";
-            int quantidadeErrosMaximo = 5;
+            int qtErrosMaximo = 5;
 
-            int qtMaxLetras = maximoLetras(palavraSecreta, quantidadeErrosMaximo);
-            //Console.WriteLine(qtMaxLetras);
+            int qtMaxLetras = maximoLetras(palavraSecreta, qtErrosMaximo);
 
             while (opcao == 'S')
             {
-                int quantidadeErros = 0;
+                int qtErros = 0;
                 bool jogadorEnforcou = false;
                 bool jogadorAcertou = false;
                 char[] letrasEncontradas = new char[palavraSecreta.Length];
+                char[] letrasDigitadas = new char[qtMaxLetras];
+                int contadorLetras = 0;
 
-                letrasEncontradas = constroiDicaPalavra(letrasEncontradas.Length, letrasEncontradas);
+                letrasDigitadas = constroiArrayVazio(letrasDigitadas.Length, letrasDigitadas);
+
+                letrasEncontradas = constroiArrayVazio(letrasEncontradas.Length, letrasEncontradas);
 
                 do
                 {
                     string dicaDaPalavra = String.Join(" ", letrasEncontradas);
+                    string palavraDigitada;
+                    char opcaoResposta;
+                    char chute = ' ';
+                    string chutePalavra = " ";
+                    bool respostaEncontrada = false;
+                    bool[] estatus;
+                    bool ePalavra = false;
 
-                    //Console.Clear();
-                    Console.WriteLine(" ---------------------------------------");
-                    Console.WriteLine(" Jogo da Forca");
-                    Console.WriteLine(" ---------------------------------------");
-                    Console.WriteLine(" Máximo de erros: 5");
-                    Console.WriteLine(" ---------------------------------------");
-                    Console.WriteLine($" Palavra secreta: {dicaDaPalavra}");
-                    Console.WriteLine(" ---------------------------------------");
-                    Console.WriteLine($" Quantidade de erros: {quantidadeErros}");
-                    Console.WriteLine("----------------------------------------");
+                    opcaoResposta = opcaoDecisao();
 
-                    Console.Write(" Digite uma letra: ");
-                    char chute = Console.ReadLine()[0]; // obtém apenas um caractere que o usuário digitou
-                    chute = Char.ToUpper(chute);
-
-                    bool letraFoiEncontrada = false;
-
-                    for (int contador = 0; contador < palavraSecreta.Length; contador++)
+                    switch (opcaoResposta)
                     {
-                        char letraAtual = palavraSecreta[contador];
+                        case '1':
+                            mostrarMenuJogo(dicaDaPalavra, qtErros, letrasDigitadas);
 
-                        if (chute == letraAtual)
-                        {
-                            letrasEncontradas[contador] = letraAtual;
-                            letraFoiEncontrada = true;
-                        }
+                            Console.Write("Digite a palavra: ");
+                            chutePalavra = Console.ReadLine().ToUpper();
+
+                            ePalavra = true;
+
+                            if (chutePalavra != palavraSecreta)
+                                respostaEncontrada = false;
+                            else
+                                respostaEncontrada = true;
+
+                                break;
+
+                        case '2':
+                            while (true)
+                            {
+                                mostrarMenuJogo(dicaDaPalavra, qtErros, letrasDigitadas);
+
+                                Console.Write(" Digite uma letra: ");
+                                chute = Console.ReadLine()[0]; // obtém apenas um caractere que o usuário digitou
+                                chute = Char.ToUpper(chute);
+
+                                if (letraPodeEntrar(chute, letrasDigitadas))
+                                {
+                                    letrasDigitadas[contadorLetras] = chute;
+                                    contadorLetras++;
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine(" Erro, essa letra já foi digitada! Favor digitar uma diferente.");
+                                    Console.WriteLine(" Aperte Enter para continuar...");
+                                    Console.ReadLine();
+                                }
+
+                                for (int contador = 0; contador < palavraSecreta.Length; contador++)
+                                {
+                                    char letraAtual = palavraSecreta[contador];
+
+                                    if (chute == letraAtual)
+                                    {
+                                        letrasEncontradas[contador] = letraAtual;
+                                        respostaEncontrada = true;
+                                    }
+                                    else
+                                        respostaEncontrada = false;
+                                }
+                            }
+
+                            break;
+
+                        default:
+                            mensagemErroOpcao();
+                            break;
                     }
 
-                    if (letraFoiEncontrada == false)
-                        quantidadeErros++;
+                    if (respostaEncontrada == false)
+                        qtErros++;
 
                     dicaDaPalavra = String.Join("", letrasEncontradas);
 
-                    jogadorAcertou = dicaDaPalavra == palavraSecreta;
-                    // o jogador poderá cometer 5 erros antes de perder
-                    jogadorEnforcou = quantidadeErros > quantidadeErrosMaximo;
+                    estatus = condicaoVitoria(palavraSecreta, dicaDaPalavra, qtErros, qtErrosMaximo, chutePalavra, ePalavra);
 
-                    condicaoVitoria(jogadorAcertou, jogadorEnforcou, palavraSecreta);
+                    jogadorAcertou = estatus[0];
+                    jogadorEnforcou = estatus[1];
 
                     Console.ReadLine();
 
