@@ -270,7 +270,7 @@
             Console.WriteLine("  ___________        ");
             Console.WriteLine("  |/        |        ");
             Console.WriteLine("  |        {0}       ", cabeca);
-            Console.WriteLine("  |     {0}{1}{2}    ", bracoEsquerdo, troncoCima, bracoDireito);
+            Console.WriteLine("  |        {0}{1}{2}    ", bracoEsquerdo, troncoCima, bracoDireito);
             Console.WriteLine("  |        {0}       ", troncoBaixo);
             Console.WriteLine("  |        {0}       ", pernas);
             Console.WriteLine("  |                  ");
@@ -288,7 +288,7 @@
                 string palavraSecreta = escolhaPalavraSecreta();
                 int qtMaxLetras = maximoLetras(palavraSecreta, qtErrosMaximo);
 
-                int qtErros = 0;
+                int qtErros = 5;
                 bool jogadorEnforcou = false;
                 bool jogadorAcertou = false;
                 char[] letrasEncontradas = new char[palavraSecreta.Length];
