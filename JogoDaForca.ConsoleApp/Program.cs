@@ -282,7 +282,7 @@
         static void Main(string[] args)
         {
             char opcao = 'S';
-            int qtErrosMaximo = 5;
+            int qtErrosMaximo = 0;
 
             while (opcao == 'S')
             {
