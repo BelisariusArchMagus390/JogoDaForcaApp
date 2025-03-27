@@ -282,14 +282,14 @@
         static void Main(string[] args)
         {
             char opcao = 'S';
-            int qtErrosMaximo = 0;
+            int qtErrosMaximo = 5;
 
             while (opcao == 'S')
             {
                 string palavraSecreta = escolhaPalavraSecreta();
                 int qtMaxLetras = maximoLetras(palavraSecreta, qtErrosMaximo);
 
-                int qtErros = 5;
+                int qtErros = 0;
                 bool jogadorEnforcou = false;
                 bool jogadorAcertou = false;
                 char[] letrasEncontradas = new char[palavraSecreta.Length];
