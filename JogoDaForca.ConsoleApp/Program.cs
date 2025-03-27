@@ -294,18 +294,16 @@
                                     Console.WriteLine(" Aperte Enter para continuar...");
                                     Console.ReadLine();
                                 }
+                            }
 
-                                for (int contador = 0; contador < palavraSecreta.Length; contador++)
+                            for (int contador = 0; contador < palavraSecreta.Length; contador++)
+                            {
+                                char letraAtual = palavraSecreta[contador];
+
+                                if (chute == letraAtual)
                                 {
-                                    char letraAtual = palavraSecreta[contador];
-
-                                    if (chute == letraAtual)
-                                    {
-                                        letrasEncontradas[contador] = letraAtual;
-                                        respostaEncontrada = true;
-                                    }
-                                    else
-                                        respostaEncontrada = false;
+                                    letrasEncontradas[contador] = letraAtual;
+                                    respostaEncontrada = true;
                                 }
                             }
 
