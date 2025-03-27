@@ -78,7 +78,7 @@
 
             return estatusJogador;
         }
-
+        // define apartir de que ponto há apenas espaços vazios no array
         static int indiceEspacoLivre(char [] letrasPalavraSecreta)
         {
             int index = 0;
@@ -97,7 +97,7 @@
 
             return index;
         }
-
+        // define a quantidade de espaços vazios de um array
         static int qtEspacosVazios(char[] letrasPalavraSecreta)
         {
             int contador = 0;
@@ -110,6 +110,7 @@
             return contador;
         }
 
+        //define a quantidade máxima de letras que a partida pode ter para definir o tamanho do array das letras já digitadas
         static int maximoLetras(string palavraSecreta, int qtErrosMaximo)
         {
             int contadorLetra;
@@ -171,7 +172,7 @@
             Console.WriteLine("\n ---------------------------------------");
             Console.WriteLine($" Quantidade de erros: {qtErros}");
         }
-
+        // verifica se a letar pode ser adicionada no array
         static bool letraPodeEntrar(char chute, char[] letrasDigitadas)
         {
             bool podeEntrar = true;
@@ -301,6 +302,7 @@
 
                 do
                 {
+                    // junta todas as letras do array letrasEncontradas em uma única string, mas coloca um espaço " " entre as letras
                     string dicaDaPalavra = String.Join(" ", letrasEncontradas);
                     string palavraDigitada;
                     char opcaoResposta;
@@ -380,6 +382,7 @@
                     if (respostaEncontrada == false)
                         qtErros++;
 
+                    // junta todas as letras do array letrasEncontradas em uma única string
                     dicaDaPalavra = String.Join("", letrasEncontradas);
 
                     estatus = condicaoVitoria(palavraSecreta, dicaDaPalavra, qtErros, qtErrosMaximo, chutePalavra, ePalavra);
