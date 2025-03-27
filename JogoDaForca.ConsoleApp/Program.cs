@@ -5,7 +5,7 @@
         static void mensagemErroOpcao()
         {
             Console.Clear();
-            Console.Write("Erro! Essa escolha não existe, favor escolher uma que exista.");
+            Console.Write(" Erro! Essa escolha não existe, favor escolher uma que exista.");
             Console.WriteLine(" Aperte Enter para continuar...");
             Console.ReadLine();
         }
@@ -62,6 +62,7 @@
                 Console.WriteLine(" Você acertou a palavra!");
                 Console.WriteLine($" A palavra secreta era: {palavraSecreta}");
                 Console.WriteLine(" ---------------------------------------");
+                Console.WriteLine(" Aperte Enter para continuar...");
             }
             else if (jogadorEnforcou)
             {
@@ -70,6 +71,7 @@
                 Console.WriteLine(" Que azar, você perdeu!");
                 Console.WriteLine($" A palavra secreta era: {palavraSecreta}");
                 Console.WriteLine(" ---------------------------------------");
+                Console.WriteLine(" Aperte Enter para continuar...");
             }
 
             bool[] estatusJogador = {jogadorAcertou, jogadorEnforcou};
@@ -168,7 +170,7 @@
                 }
             }
 
-            Console.WriteLine(" ---------------------------------------");
+            Console.WriteLine("\n ---------------------------------------");
             Console.WriteLine($" Quantidade de erros: {qtErros}");
             Console.WriteLine(" ---------------------------------------");
         }
