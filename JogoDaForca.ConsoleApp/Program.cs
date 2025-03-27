@@ -5,7 +5,7 @@
         static void mensagemErroOpcao()
         {
             Console.Clear();
-            Console.Write(" Erro! Essa escolha não existe, favor escolher uma que exista.");
+            Console.WriteLine(" Erro! Essa escolha não existe, favor escolher uma que exista.");
             Console.WriteLine(" Aperte Enter para continuar...");
             Console.ReadLine();
         }
@@ -172,14 +172,6 @@
 
             Console.WriteLine("\n ---------------------------------------");
             Console.WriteLine($" Quantidade de erros: {qtErros}");
-            Console.WriteLine(" ---------------------------------------");
-        }
-
-        static void mostrarMenuOpcoes()
-        {
-            Console.WriteLine(" 1 - Palavra");
-            Console.WriteLine(" 2 - Letra");
-            Console.WriteLine(" ---------------------------------------");
         }
 
         static bool letraPodeEntrar(char chute, char[] letrasDigitadas)
@@ -203,18 +195,12 @@
         {
             char opcaoResposta;
 
-            mostrarMenuOpcoes();
-
-            while (true)
-            {
-                Console.Write(" Escolha se quer responder com uma palavra ou letra: ");
-                opcaoResposta = Console.ReadLine()[0];
-
-                if (opcaoResposta == '1' || opcaoResposta == '2')
-                    break;
-                else
-                    mensagemErroOpcao();
-            }
+            Console.WriteLine(" ---------------------------------------");
+            Console.WriteLine(" 1 - Palavra");
+            Console.WriteLine(" 2 - Letra");
+            Console.WriteLine(" ---------------------------------------");
+            Console.Write(" Escolha se quer responder com uma palavra ou letra: ");
+            opcaoResposta = Console.ReadLine()[0];
 
             return opcaoResposta;
         }
@@ -251,29 +237,34 @@
                     bool[] estatus;
                     bool ePalavra = false;
 
-                    mostrarMenuJogo(dicaDaPalavra, qtErros, letrasDigitadas);
-
-                    opcaoResposta = opcaoDecisao();
-
-                    switch (opcaoResposta)
+                    bool checagemOpcao = false;
+                    while (checagemOpcao == false)
                     {
-                        case '1':
-                            Console.Write("\n Digite a palavra: ");
-                            chutePalavra = Console.ReadLine().ToUpper();
+                        mostrarMenuJogo(dicaDaPalavra, qtErros, letrasDigitadas);
 
-                            ePalavra = true;
+                        opcaoResposta = opcaoDecisao();
 
-                            if (chutePalavra != palavraSecreta)
-                                respostaEncontrada = false;
-                            else
-                                respostaEncontrada = true;
+                        switch (opcaoResposta)
+                        {
+                            case '1':
+                                Console.WriteLine(" ---------------------------------------");
+                                Console.Write(" Digite a palavra: ");
+                                chutePalavra = Console.ReadLine().ToUpper();
 
+                                ePalavra = true;
+
+                                if (chutePalavra != palavraSecreta)
+                                    respostaEncontrada = false;
+                                else
+                                    respostaEncontrada = true;
+
+                                checagemOpcao = true;
                                 break;
 
-                        case '2':
-                            while (true)
-                            {
-                                Console.Write("\n Digite uma letra: ");
+                            case '2':
+                                
+                                Console.WriteLine(" ---------------------------------------");
+                                Console.Write(" Digite uma letra: ");
                                 chute = Console.ReadLine()[0]; // obtém apenas um caractere que o usuário digitou
                                 chute = Char.ToUpper(chute);
 
@@ -281,7 +272,6 @@
                                 {
                                     letrasDigitadas[contadorLetras] = chute;
                                     contadorLetras++;
-                                    break;
                                 }
                                 else
                                 {
@@ -289,25 +279,27 @@
                                     Console.WriteLine(" Erro, essa letra já foi digitada! Favor digitar uma diferente.");
                                     Console.WriteLine(" Aperte Enter para continuar...");
                                     Console.ReadLine();
+                                    break;
                                 }
-                            }
 
-                            for (int contador = 0; contador < palavraSecreta.Length; contador++)
-                            {
-                                char letraAtual = palavraSecreta[contador];
-
-                                if (chute == letraAtual)
+                                for (int contador = 0; contador < palavraSecreta.Length; contador++)
                                 {
-                                    letrasEncontradas[contador] = letraAtual;
-                                    respostaEncontrada = true;
+                                    char letraAtual = palavraSecreta[contador];
+
+                                    if (chute == letraAtual)
+                                    {
+                                        letrasEncontradas[contador] = letraAtual;
+                                        respostaEncontrada = true;
+                                    }
                                 }
-                            }
 
-                            break;
+                                checagemOpcao = true;
+                                break;
 
-                        default:
-                            mensagemErroOpcao();
-                            break;
+                            default:
+                                mensagemErroOpcao();
+                                break;
+                        }
                     }
 
                     if (respostaEncontrada == false)
