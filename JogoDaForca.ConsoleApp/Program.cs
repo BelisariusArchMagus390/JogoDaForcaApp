@@ -205,16 +205,67 @@
             return opcaoResposta;
         }
 
+        static string escolhaPalavraSecreta()
+        {
+
+            string[] frutas = {"ABACATE", "GOIABA", "MELANCIA", "MAÇA"};
+            string[] paises = {"CHINA", "INDIA", "RUSSIA", "BRASIL"};
+            string[] animais = {"ELEFANTE", "TARTARUGA", "ARARA", "CACHORRO"};
+
+            string[] tema = new string[5];
+            int indiceAleatorio = 0;
+            string palavraSecreta;
+
+            bool checagemResposta = false;
+            while (checagemResposta == false)
+            {
+                Console.Clear();
+                Console.WriteLine(" ---------------------------------------");
+                Console.WriteLine(" 1 - Frutas");
+                Console.WriteLine(" 2 - Países");
+                Console.WriteLine(" 3 - Animais");
+                Console.WriteLine(" ---------------------------------------");
+                Console.Write(" Escolha o tema da forca: ");
+                char opcaoTema = Console.ReadLine()[0];
+
+                switch (opcaoTema)
+                {
+                    case '1':
+                        tema = frutas;
+                        checagemResposta = true;
+                        break;
+                    case '2':
+                        tema = paises;
+                        checagemResposta = true;
+                        break;
+                    case '3':
+                        tema = animais;
+                        checagemResposta = true;
+                        break;
+                    default:
+                        mensagemErroOpcao();
+                        break;
+                }
+            }
+
+            Random random = new Random();
+            indiceAleatorio = random.Next(tema.Length);
+
+            palavraSecreta = tema[indiceAleatorio];
+
+            return palavraSecreta;
+        }
+
         static void Main(string[] args)
         {
             char opcao = 'S';
-            string palavraSecreta = "MELANCIA";
             int qtErrosMaximo = 5;
-
-            int qtMaxLetras = maximoLetras(palavraSecreta, qtErrosMaximo);
 
             while (opcao == 'S')
             {
+                string palavraSecreta = escolhaPalavraSecreta();
+                int qtMaxLetras = maximoLetras(palavraSecreta, qtErrosMaximo);
+
                 int qtErros = 0;
                 bool jogadorEnforcou = false;
                 bool jogadorAcertou = false;
