@@ -2,6 +2,9 @@
 {
     internal class Program
     {
+        static Menu menu = new Menu();
+        static Forca forca = new Forca();
+
         static void Main(string[] args)
         {
             char opcao = 'S';
@@ -9,8 +12,8 @@
 
             while (opcao == 'S')
             {
-                string palavraSecreta = escolhaPalavraSecreta();
-                int qtMaxLetras = maximoLetras(palavraSecreta, qtErrosMaximo);
+                string palavraSecreta = forca.escolhaPalavraSecreta();
+                int qtMaxLetras = forca.maximoLetras(palavraSecreta, qtErrosMaximo);
 
                 int qtErros = 0;
                 bool jogadorEnforcou = false;
@@ -19,9 +22,9 @@
                 char[] letrasDigitadas = new char[qtMaxLetras];
                 int contadorLetras = 0;
 
-                letrasDigitadas = constroiArrayVazio(letrasDigitadas.Length, letrasDigitadas);
+                letrasDigitadas = forca.constroiArrayVazio(letrasDigitadas.Length, letrasDigitadas);
 
-                letrasEncontradas = constroiArrayVazio(letrasEncontradas.Length, letrasEncontradas);
+                letrasEncontradas = forca.constroiArrayVazio(letrasEncontradas.Length, letrasEncontradas);
 
                 do
                 {
@@ -38,11 +41,11 @@
                     bool checagemOpcao = false;
                     while (checagemOpcao == false)
                     {
-                        desenhoForca(qtErros);
+                        forca.desenhoForca(qtErros);
 
-                        mostrarMenuJogo(dicaDaPalavra, qtErros, letrasDigitadas);
+                        menu.mostrarMenuJogo(dicaDaPalavra, qtErros, letrasDigitadas);
 
-                        opcaoResposta = opcaoDecisao();
+                        opcaoResposta = menu.opcaoDecisao();
 
                         switch (opcaoResposta)
                         {
@@ -68,7 +71,7 @@
                                 chute = Console.ReadLine()[0]; // obtém apenas um caractere que o usuário digitou
                                 chute = Char.ToUpper(chute);
 
-                                if (letraPodeEntrar(chute, letrasDigitadas))
+                                if (forca.letraPodeEntrar(chute, letrasDigitadas))
                                 {
                                     letrasDigitadas[contadorLetras] = chute;
                                     contadorLetras++;
@@ -97,7 +100,7 @@
                                 break;
 
                             default:
-                                mensagemErroOpcao();
+                                menu.mensagemErroOpcao();
                                 break;
                         }
                     }
@@ -108,7 +111,7 @@
                     // junta todas as letras do array letrasEncontradas em uma única string
                     dicaDaPalavra = String.Join("", letrasEncontradas);
 
-                    estatus = condicaoVitoria(palavraSecreta, dicaDaPalavra, qtErros, qtErrosMaximo, chutePalavra, ePalavra);
+                    estatus = forca.condicaoVitoria(palavraSecreta, dicaDaPalavra, qtErros, qtErrosMaximo, chutePalavra, ePalavra);
 
                     jogadorAcertou = estatus[0];
                     jogadorEnforcou = estatus[1];
@@ -117,7 +120,7 @@
 
                 } while (jogadorAcertou == false && jogadorEnforcou == false);
 
-                opcao = opcaoSaida();
+                opcao = menu.opcaoSaida();
             }
         }
     }

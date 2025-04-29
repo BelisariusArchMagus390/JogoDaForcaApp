@@ -8,6 +8,8 @@ namespace JogoDaForca.ConsoleApp
 {
     internal class Forca
     {
+        Menu menu = new Menu();
+
         public char[] constroiArrayVazio(int tamanhoArray, char[] array)
         {
             for (int caractere = 0; caractere < tamanhoArray; caractere++)
@@ -179,7 +181,7 @@ namespace JogoDaForca.ConsoleApp
                         checagemResposta = true;
                         break;
                     default:
-                        mensagemErroOpcao();
+                        menu.mensagemErroOpcao();
                         break;
                 }
             }
