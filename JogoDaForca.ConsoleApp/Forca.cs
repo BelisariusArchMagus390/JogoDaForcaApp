@@ -8,7 +8,7 @@ namespace JogoDaForca.ConsoleApp
 {
     internal class Forca
     {
-        static char[] constroiArrayVazio(int tamanhoArray, char[] array)
+        public char[] constroiArrayVazio(int tamanhoArray, char[] array)
         {
             for (int caractere = 0; caractere < tamanhoArray; caractere++)
             {
@@ -19,7 +19,7 @@ namespace JogoDaForca.ConsoleApp
             return array;
         }
 
-        static bool[] condicaoVitoria(string palavraSecreta, string dicaDaPalavra, int qtErros, int qtErrosMaximo, string chutePalavra, bool ePalavra)
+        public bool[] condicaoVitoria(string palavraSecreta, string dicaDaPalavra, int qtErros, int qtErrosMaximo, string chutePalavra, bool ePalavra)
         {
             bool jogadorAcertou;
             bool jogadorEnforcou;
@@ -56,7 +56,7 @@ namespace JogoDaForca.ConsoleApp
         }
 
         // define apartir de que ponto há apenas espaços vazios no array
-        static int indiceEspacoLivre(char[] letrasPalavraSecreta)
+        public int indiceEspacoLivre(char[] letrasPalavraSecreta)
         {
             int index = 0;
 
@@ -76,7 +76,7 @@ namespace JogoDaForca.ConsoleApp
         }
 
         // define a quantidade de espaços vazios de um array
-        static int qtEspacosVazios(char[] letrasPalavraSecreta)
+        public int qtEspacosVazios(char[] letrasPalavraSecreta)
         {
             int contador = 0;
             for (int i = 0; i < letrasPalavraSecreta.Length; i++)
@@ -89,7 +89,7 @@ namespace JogoDaForca.ConsoleApp
         }
 
         //define a quantidade máxima de letras que a partida pode ter para definir o tamanho do array das letras já digitadas
-        static int maximoLetras(string palavraSecreta, int qtErrosMaximo)
+        public int maximoLetras(string palavraSecreta, int qtErrosMaximo)
         {
             int contadorLetra;
             int tamanhoPalavra = palavraSecreta.Length;
@@ -124,7 +124,7 @@ namespace JogoDaForca.ConsoleApp
         }
 
         // verifica se a letra pode ser adicionada no array
-        static bool letraPodeEntrar(char chute, char[] letrasDigitadas)
+        public bool letraPodeEntrar(char chute, char[] letrasDigitadas)
         {
             bool podeEntrar = true;
             for (int i = 0; i < letrasDigitadas.Length; i++)
@@ -141,7 +141,7 @@ namespace JogoDaForca.ConsoleApp
                 return false;
         }
 
-        static string escolhaPalavraSecreta()
+        public string escolhaPalavraSecreta()
         {
 
             string[] frutas = { "ABACATE", "GOIABA", "MELANCIA", "MAÇA" };
@@ -192,7 +192,7 @@ namespace JogoDaForca.ConsoleApp
             return palavraSecreta;
         }
 
-        static void desenhoForca(int qtErros)
+        public void desenhoForca(int qtErros)
         {
             string cabeca = qtErros >= 1 ? " o " : " ";
             string troncoCima = qtErros >= 2 ? "|" : " ";

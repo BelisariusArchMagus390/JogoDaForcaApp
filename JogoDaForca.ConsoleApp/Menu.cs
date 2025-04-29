@@ -8,7 +8,7 @@ namespace JogoDaForca.ConsoleApp
 {
     internal class Menu
     {
-        static void mostrarMenuJogo(string dicaDaPalavra, int qtErros, char[] letrasDigitadas)
+        public void mostrarMenuJogo(string dicaDaPalavra, int qtErros, char[] letrasDigitadas)
         {
             Console.WriteLine(" ---------------------------------------");
             Console.WriteLine(" Máximo de erros: 5");
@@ -36,7 +36,7 @@ namespace JogoDaForca.ConsoleApp
             Console.WriteLine($" Quantidade de erros: {qtErros}");
         }
 
-        static char opcaoDecisao()
+        public char opcaoDecisao()
         {
             char opcaoResposta;
 
@@ -50,7 +50,7 @@ namespace JogoDaForca.ConsoleApp
             return opcaoResposta;
         }
 
-        static char opcaoSaida()
+        public char opcaoSaida()
         {
             char opcao;
 
@@ -72,7 +72,7 @@ namespace JogoDaForca.ConsoleApp
             return opcao;
         }
 
-        static void mensagemErroOpcao()
+        public void mensagemErroOpcao()
         {
             Console.Clear();
             Console.WriteLine(" Erro! Essa escolha não existe, favor escolher uma que exista.");
