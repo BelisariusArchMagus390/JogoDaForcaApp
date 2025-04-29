@@ -63,7 +63,7 @@ namespace JogoDaForca.ConsoleApp
 
                 if (opcao != 'S' && opcao != 'N')
                 {
-                    mensagemErroOpcao();
+                    mensagemErroOpcao("Essa escolha não existe, favor escolher uma que exista.");
                 }
                 else
                     break;
@@ -72,10 +72,10 @@ namespace JogoDaForca.ConsoleApp
             return opcao;
         }
 
-        public void mensagemErroOpcao()
+        public void mensagemErroOpcao(string mensagem)
         {
             Console.Clear();
-            Console.WriteLine(" Erro! Essa escolha não existe, favor escolher uma que exista.");
+            Console.WriteLine($" Erro! {mensagem}");
             Console.WriteLine(" Aperte Enter para continuar...");
             Console.ReadLine();
         }

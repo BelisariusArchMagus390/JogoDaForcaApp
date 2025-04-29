@@ -69,10 +69,7 @@
                                 }
                                 else
                                 {
-                                    Console.Clear();
-                                    Console.WriteLine(" Erro, essa letra já foi digitada! Favor digitar uma diferente.");
-                                    Console.WriteLine(" Aperte Enter para continuar...");
-                                    Console.ReadLine();
+                                    menu.mensagemErroOpcao("Essa letra já foi digitada! Favor digitar uma diferente.");
                                     break;
                                 }
 
@@ -82,7 +79,7 @@
                                 break;
 
                             default:
-                                menu.mensagemErroOpcao();
+                                menu.mensagemErroOpcao("Essa escolha não existe, favor escolher uma que exista.");
                                 break;
                         }
                     }

@@ -189,7 +189,7 @@ namespace JogoDaForca.ConsoleApp
                         checagemResposta = true;
                         break;
                     default:
-                        menu.mensagemErroOpcao();
+                        menu.mensagemErroOpcao("Essa escolha não existe, favor escolher uma que exista.");
                         break;
                 }
             }
